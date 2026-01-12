@@ -27,16 +27,8 @@ public class Game1 : Core
     {
         // TODO: use this.Content to load your game content here
 
-        // load entity atlas
-        Texture2D entityAtlas = Content.Load<Texture2D>("assets/images/atlas/entities");
-
-        // create texture atlas from loaded atlas
-        TextureAtlas atlas = new TextureAtlas(entityAtlas);
-
-        // add slime's region
-        atlas.AddRegion("slime", 0, 0, 20, 20);
-        // add bat's region
-        atlas.AddRegion("bat", 20, 0, 20, 20);
+        // create texture atlas from entity xml
+        TextureAtlas atlas = TextureAtlas.FromFile(Content, "assets/images/atlas/entities-definition.xml");
 
         // get slime region from atlas
         _slime = atlas.GetRegion("slime");

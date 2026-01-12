@@ -13,6 +13,9 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin assets/images/atlas/entities-definition.xml
+/copy:assets/images/atlas/entities-definition.xml
+
 #begin assets/images/atlas/entities.png
 /importer:TextureImporter
 /processor:TextureProcessor

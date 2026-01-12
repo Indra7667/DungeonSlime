@@ -53,7 +53,7 @@ public class Core : Game
 
         // set the graphics defaults
         Graphics.PreferredBackBufferHeight = height;
-        Graphics.PreferredBackBufferHeight = width;
+        Graphics.PreferredBackBufferWidth = width;
         Graphics.IsFullScreen = fullScreen;
 
         // apply graphic presentation changes

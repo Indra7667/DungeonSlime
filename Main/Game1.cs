@@ -8,7 +8,8 @@ namespace Main;
 
 public class Game1 : Core
 {
-    private Texture2D _logo;
+    private TextureRegion _slime;
+    private TextureRegion _bat;
 
     public Game1() : base("Dungeon Slime", 1280, 720, false)
     {
@@ -25,7 +26,24 @@ public class Game1 : Core
     protected override void LoadContent()
     {
         // TODO: use this.Content to load your game content here
-        _logo = Content.Load<Texture2D>("assets/images/logo");
+
+        // load entity atlas
+        Texture2D entityAtlas = Content.Load<Texture2D>("assets/images/atlas/entities");
+
+        // create texture atlas from loaded atlas
+        TextureAtlas atlas = new TextureAtlas(entityAtlas);
+
+        // add slime's region
+        atlas.AddRegion("slime", 0, 0, 20, 20);
+        // add bat's region
+        atlas.AddRegion("bat", 20, 0, 20, 20);
+
+        // get slime region from atlas
+        _slime = atlas.GetRegion("slime");
+
+        // get bat region from atlas
+        _bat = atlas.GetRegion("bat");
+
         base.LoadContent();
     }
 
@@ -43,46 +61,34 @@ public class Game1 : Core
     {
         // TODO: Add your drawing code here
 
+        // clear back buffer
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        Rectangle logoIcon = new(0, 0, 128, 128);
-        Rectangle logoWord = new(150, 34, 458, 58);
+        // begin sprite batch
+        SpriteBatch.Begin(samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
 
-        SpriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack);
-        // icon
-        SpriteBatch.Draw(
-            _logo, // texture2D
-            new Vector2( // position, middle of the screen
-                Window.ClientBounds.Width,
-                Window.ClientBounds.Height
-            ) * 0.5f,
-            logoIcon,   // rectangle
-            Color.White * 1.0f, // color masking & opacity
-            MathHelper.ToRadians(0),   // rotation
-            new Vector2( // origin, middle of original image
-                logoIcon.Width,
-                logoIcon.Height
-            ) * 0.5f, 
-            1.0f,   // scale -> float | vector2d(x, y)
-            SpriteEffects.None, // effects -> None, FlipHorizontally, FlipVertically
-            1.0f    // layerDepth
+        // draw the slime
+        _slime.Draw(
+            SpriteBatch,
+            Vector2.Zero,
+            Color.White,
+            0.0f,
+            Vector2.One,
+            4.0f, // scale by 4
+            SpriteEffects.None,
+            0.0f
             );
-        SpriteBatch.Draw(
-            _logo, // texture2D
-            new Vector2( // position, middle of the screen
-                Window.ClientBounds.Width,
-                Window.ClientBounds.Height
-            ) * 0.5f,
-            logoWord,   // rectangle
-            Color.White * 1.0f, // color masking & opacity
-            MathHelper.ToRadians(0),   // rotation
-            new Vector2( // origin, middle of original image
-                logoWord.Width,
-                logoWord.Height
-            ) * 0.5f, 
-            1.0f,   // scale -> float | vector2d(x, y)
-            SpriteEffects.None, // effects -> None, FlipHorizontally, FlipVertically
-            0.0f    // layerDepth
+
+        // dar the bat
+        _bat.Draw(
+            SpriteBatch,
+            new Vector2(_slime.Width * 4.0f + 10, 0), // 10 pixel next to the slime
+            Color.White,
+            0.0f,
+            Vector2.One,
+            4.0f,  // scale by 4
+            SpriteEffects.None,
+            1.0f
             );
         SpriteBatch.End();
 

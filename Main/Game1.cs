@@ -8,8 +8,8 @@ namespace Main;
 
 public class Game1 : Core
 {
-    private TextureRegion _slime;
-    private TextureRegion _bat;
+    private Sprite _slime;
+    private Sprite _bat;
 
     public Game1() : base("Dungeon Slime", 1280, 720, false)
     {
@@ -30,11 +30,13 @@ public class Game1 : Core
         // create texture atlas from entity xml
         TextureAtlas atlas = TextureAtlas.FromFile(Content, "assets/images/atlas/entities-definition.xml");
 
-        // get slime region from atlas
-        _slime = atlas.GetRegion("slime");
+        // make slime sprite from atlas' region
+        _slime = atlas.CreateSprite("slime");
+        _slime.Rescale(4.0f);
 
-        // get bat region from atlas
-        _bat = atlas.GetRegion("bat");
+        // make bat sprite from atlas' region
+        _bat = atlas.CreateSprite("bat");
+        _bat.Rescale(4.0f);
 
         base.LoadContent();
     }
@@ -62,26 +64,14 @@ public class Game1 : Core
         // draw the slime
         _slime.Draw(
             SpriteBatch,
-            Vector2.Zero,
-            Color.White,
-            0.0f,
-            Vector2.One,
-            4.0f, // scale by 4
-            SpriteEffects.None,
-            0.0f
-            );
+            Vector2.Zero
+        );
 
         // dar the bat
         _bat.Draw(
             SpriteBatch,
-            new Vector2(_slime.Width * 4.0f + 10, 0), // 10 pixel next to the slime
-            Color.White,
-            0.0f,
-            Vector2.One,
-            4.0f,  // scale by 4
-            SpriteEffects.None,
-            1.0f
-            );
+            new Vector2(_slime.Width*1.5f, 0) // half a slime next to the slime
+        );
         SpriteBatch.End();
 
         base.Draw(gameTime);

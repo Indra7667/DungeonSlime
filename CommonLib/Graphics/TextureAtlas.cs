@@ -113,7 +113,7 @@ public class TextureAtlas
                 // So we will retrieve that value then use the content manager to load the texture.
                 string texturePath = root.Element("Texture").Value;
                 atlas.Texture = content.Load<Texture2D>(texturePath);
-                
+
                 // The <Regions> element contains individual <Region> elements, each one describing
                 // a different texture region within the atlas.  
                 //
@@ -127,9 +127,9 @@ public class TextureAtlas
                 // and generate a new TextureRegion instance from it and add it to this atlas.
                 var regions = root.Element("Regions")?.Elements("Region");
 
-                if(regions != null)
+                if (regions != null)
                 {
-                    foreach(var region in regions)
+                    foreach (var region in regions)
                     {
                         string name = region.Attribute("name")?.Value;
                         int x = int.Parse(region.Attribute("x")?.Value ?? "0");
@@ -147,5 +147,16 @@ public class TextureAtlas
                 return atlas;
             }
         }
+    }
+
+    /// <summary>
+    /// make new sprite using existing region
+    /// </summary>
+    /// <param name="regionName">region name used to create the sprite</param>
+    /// <returns>a new sprite using chosen region name</returns>
+    public Sprite CreateSprite(string regionName)
+    {
+        TextureRegion region = GetRegion(regionName);
+        return new Sprite(region);
     }
 }
